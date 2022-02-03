@@ -2,9 +2,13 @@ FROM gradle:6.9-jdk11
 
 USER root
 
-COPY server app
+WORKDIR /usr/app
 
-RUN apt-get update && apt-get install -y npm nodejs git android-sdk
+COPY package*.json ./
+
+RUN apt-get update && apt-get install -y git npm nodejs android-sdk
+
+ENV NODE_VERSION 12.18
 
 ENV ANDROID_HOME /usr/lib/android-sdk
 ENV PATH ${PATH}:${ANDROID_HOME}/tools
@@ -17,13 +21,14 @@ ENV PATH ${PATH}:${ANDROID_HOME}/platform-tools
 #     unzip android_tools.zip && \
 #     rm android_tools.zip
 
+RUN npm install -g n yarn
 
-RUN npm install -g n
+RUN n ${NODE_VERSION}
 
-RUN n 12.18
+RUN yarn 
 
-RUN npm install yarn -g
+COPY . .
 
-WORKDIR app
+EXPOSE 3000
 
-RUN yarn
+CMD ["yarn", "dev"]

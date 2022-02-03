@@ -4,6 +4,6 @@
     "ignore": [],
     "exec": "ts-node ./src/index.ts",
     "env": {
-      "GITHUB_TOKEN": ""
+      "GITHUB_TOKEN": "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"
     }
   }
